@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "kanz8438_forall",
+    "password": "gfY5N1U2W)LT",
+    "database": "kanz8438_ansania",
+    "host": "kantiss.com",
+    "dialect": "mariadb"
+  },
+  "test": {
+    "username": "kanz8438_forall",
+    "password": "gfY5N1U2W)LT",
+    "database": "kanz8438_ansania",
+    "host": "kantiss.com",
+    "dialect": "mariadb"
+  },
+  "production": {
+    "username": "kanz8438_forall",
+    "password": "gfY5N1U2W)LT",
+    "database": "kanz8438_ansania",
+    "host": "kantiss.com",
+    "dialect": "mariadb"
+  }
+}
