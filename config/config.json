@@ -4,7 +4,10 @@
     "password": "gfY5N1U2W)LT",
     "database": "kanz8438_ansania",
     "host": "kantiss.com",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "dialectOptions": {
+      "connectTimeout": 20000
+    }
   },
   "test": {
     "username": "kanz8438_forall",

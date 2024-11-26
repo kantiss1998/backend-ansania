@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       user_id: DataTypes.INTEGER,
       order_date: DataTypes.DATE,
-      status: DataTypes.INTEGER,
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "pending",
+      },
       shipping_fee: DataTypes.INTEGER,
       total_price: DataTypes.INTEGER,
     },

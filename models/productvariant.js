@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       ProductVariant.belongsTo(models.Product, { foreignKey: "product_id" });
-      ProductVariant.belongsTo(models.Size, { foreignKey: "size_id" });
-      ProductVariant.belongsTo(models.Color, { foreignKey: "color_id" });
+      ProductVariant.belongsTo(models.ProductSize, { foreignKey: "size_id" });
+      ProductVariant.belongsTo(models.ProductColor, { foreignKey: "color_id" });
       ProductVariant.hasMany(models.OrderItem, {
         foreignKey: "product_variant_id",
       });

@@ -15,7 +15,7 @@ module.exports = {
           model: "Categories",
           key: "id",
         },
-        onDelete: "CASCADE",
+        onDelete: "SET NULL"
       },
       description: {
         type: Sequelize.STRING,

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.UserProfile, { foreignKey: "user_id" });
+      User.hasMany(models.UserProfil, { foreignKey: "user_id" });
       User.hasMany(models.Wishlist, { foreignKey: "user_id" });
       User.hasMany(models.Order, { foreignKey: "user_id" });
       User.hasMany(models.Review, { foreignKey: "user_id" });
@@ -19,9 +19,15 @@ module.exports = (sequelize, DataTypes) => {
   User.init(
     {
       username: DataTypes.STRING,
-      email: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
       password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: "customer",
+      },
     },
     {
       sequelize,

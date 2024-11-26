@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       status: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       shipping_fee: {
         type: Sequelize.INTEGER
