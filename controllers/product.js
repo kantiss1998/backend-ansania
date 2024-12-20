@@ -1,9 +1,40 @@
-const { Product, Category } = require("../models");
+const {
+  Product,
+  Category,
+  ProductImage,
+  ProductSize,
+  ProductColor,
+  ProductVariant,
+} = require("../models");
 
 class ProductController {
   static async getAllProducts(req, res, next) {
     try {
-      const products = await Product.findAll();
+      const products = await Product.findAll({
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            model: ProductImage,
+            as: "images",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductSize,
+            as: "sizes",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductColor,
+            as: "colors",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductVariant,
+            as: "variants",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+        ],
+      });
       res.status(200).json(products);
     } catch (error) {
       next(error);
@@ -12,7 +43,31 @@ class ProductController {
 
   static async getProductById(req, res, next) {
     try {
-      const product = await Product.findByPk(req.params.id);
+      const product = await Product.findByPk(req.params.id, {
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            model: ProductImage,
+            as: "images",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductSize,
+            as: "sizes",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductColor,
+            as: "colors",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          {
+            model: ProductVariant,
+            as: "variants",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+        ],
+      });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });

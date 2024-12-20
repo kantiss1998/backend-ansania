@@ -1,19 +1,23 @@
 const { ProductSize } = require("../models");
 
 class ProductSizeController {
-  static async getProductSizes(req, res, next) {
+  static async getAllProductSizes(req, res, next) {
     try {
-      const productSizes = await ProductSize.findAll();
+      const productSizes = await ProductSize.findAll({
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+      });
       res.status(200).json(productSizes);
     } catch (error) {
       next(error);
     }
   }
 
-  static async getProductSize(req, res, next) {
+  static async getProductSizeById(req, res, next) {
     try {
       const { id } = req.params;
-      const productSize = await ProductSize.findByPk(id);
+      const productSize = await ProductSize.findByPk(id, {
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+      });
 
       if (!productSize) {
         return res.status(404).json({ message: "Product size not found" });
@@ -27,9 +31,10 @@ class ProductSizeController {
 
   static async getProductSizeByProductId(req, res, next) {
     try {
-      const { id } = req.params;
+      const { productid } = req.params;
       const productSize = await ProductSize.findOne({
-        where: { product_id: id },
+        where: { product_id: productid },
+        attributes: { exclude: ["createdAt", "updatedAt"] },
       });
 
       if (!productSize) {

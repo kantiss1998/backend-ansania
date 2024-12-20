@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       CollectionProduct.hasMany(models.CollectionProductItem, {
         foreignKey: "collection_product_id",
+        as: "product",
       });
     }
   }
@@ -18,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      image_url: DataTypes.STRING,
+      image_url: { type: DataTypes.STRING, defaultValue: "-" },
     },
     {
       sequelize,

@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "customer",
       },
+      last_login: DataTypes.DATE
     },
     {
       sequelize,

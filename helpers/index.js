@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 class Helpers {
   static hashPassword = (password) => {
-    const result = bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+    const result = bcrypt.hashSync(password, 10);
     return result;
   };
 
@@ -15,12 +15,12 @@ class Helpers {
 
   static generateToken = (payload) => {
     console.log(process.env)
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const token = jwt.sign(payload, "anotherbem");
     return token;
   };
 
   static validateToken = (token) => {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, "anotherbem");
     return decoded;
   };
 

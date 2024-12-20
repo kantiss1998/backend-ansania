@@ -4,7 +4,6 @@ class ProductVariantController {
   static async getProductVariants(req, res, next) {
     try {
       const productVariants = await ProductVariant.findAll({
-        where: { productId: req.params.productId },
         attributes: { exclude: ["createdAt", "updatedAt"] },
       });
       res.status(200).json(productVariants);
@@ -33,7 +32,8 @@ class ProductVariantController {
   static async getProductVariantsByProductId(req, res, next) {
     try {
       const productVariants = await ProductVariant.findAll({
-        where: { product_id: req.params.product_id }
+        where: { product_id: req.params.product_id },
+        attributes: { exclude: ["createdAt", "updatedAt"] },
       });
       res.status(200).json(productVariants);
     } catch (error) {
@@ -78,3 +78,5 @@ class ProductVariantController {
     }
   }
 }
+
+module.exports = ProductVariantController;
