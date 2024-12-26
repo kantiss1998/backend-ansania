@@ -26,7 +26,6 @@ class OrderItemController {
     }
   }
 
-  // Get order items by Order ID
   static async getOrderItemsByOrderId(req, res, next) {
     try {
       const { order_id } = req.params;

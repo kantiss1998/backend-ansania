@@ -1,9 +1,9 @@
 const express = require("express");
 const CollectionProductItemController = require("../controllers/collectionProductItem");
 
-const colllectionProductItem = express.Router();
+const collectionProductItem = express.Router();
 
-colllectionProductItem.get("/", CollectionProductItemController.addProductToCollection);
-colllectionProductItem.delete("/:id", CollectionProductItemController.removeProductFromCollection);
+collectionProductItem.get("/", CollectionProductItemController.addProductToCollection);
+collectionProductItem.delete("/:id", CollectionProductItemController.removeProductFromCollection);
 
-module.exports = colllectionProductItem;
+module.exports = collectionProductItem;

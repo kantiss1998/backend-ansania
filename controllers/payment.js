@@ -2,19 +2,16 @@ const { Payment, Order } = require("../models");
 const midtransClient = require("midtrans-client");
 
 class PaymentController {
-  // Initialize Midtrans client
   static snap = new midtransClient.Snap({
     isProduction: false, // Change to true in production
     serverKey: process.env.MIDTRANS_SERVER_KEY,
     clientKey: process.env.MIDTRANS_CLIENT_KEY,
   });
 
-  // Create payment (initialize transaction)
   static async createPayment(req, res, next) {
     try {
       const { order_id, amount, method } = req.body;
 
-      // Validate input
       if (!order_id || !amount || !method) {
         return res.status(400).json({ message: "Required fields are missing" });
       }
@@ -24,22 +21,20 @@ class PaymentController {
         return res.status(404).json({ message: "Order not found" });
       }
 
-      // Generate Midtrans transaction parameters
       const transactionParams = {
         transaction_details: {
           order_id: `order-${order.id}-${Date.now()}`,
           gross_amount: amount,
         },
         customer_details: {
-          email: req.user.email, // Assuming user is authenticated
+          email: req.user.email,
           first_name: req.user.fullname,
         },
-        payment_type: method, // e.g., "gopay", "bank_transfer", etc.
+        payment_type: method,
       };
 
       const transaction = await PaymentController.snap.createTransaction(transactionParams);
 
-      // Save payment data to database
       const payment = await Payment.create({
         order_id,
         amount,
@@ -58,15 +53,13 @@ class PaymentController {
     }
   }
 
-  // Handle Midtrans notification
   static async handleNotification(req, res, next) {
     try {
       const notification = req.body;
 
       const statusResponse = await PaymentController.snap.transaction.notification(notification);
-      const { order_id, transaction_status, gross_amount } = statusResponse;
+      const { order_id, transaction_status } = statusResponse;
 
-      // Find the payment record
       const payment = await Payment.findOne({
         where: { transaction_id: order_id },
       });
@@ -75,7 +68,6 @@ class PaymentController {
         return res.status(404).json({ message: "Payment not found" });
       }
 
-      // Update payment status
       let status;
       if (transaction_status === "settlement") {
         status = "SUCCESS";
@@ -89,7 +81,6 @@ class PaymentController {
 
       await payment.update({ status, payment_date: new Date() });
 
-      // Optionally update order status
       if (status === "SUCCESS") {
         const order = await Order.findByPk(payment.order_id);
         await order.update({ payment_status: "PAID" });
@@ -101,7 +92,6 @@ class PaymentController {
     }
   }
 
-  // Get all payments
   static async getPayments(req, res, next) {
     try {
       const payments = await Payment.findAll({
@@ -115,7 +105,6 @@ class PaymentController {
     }
   }
 
-  // Get payment by ID
   static async getPaymentById(req, res, next) {
     try {
       const { id } = req.params;

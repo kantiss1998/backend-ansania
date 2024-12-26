@@ -1,7 +1,6 @@
 const { Order, User, DiscountUsage } = require("../models");
 
 class OrderController {
-  // Get all orders
   static async getOrders(req, res, next) {
     try {
       const orders = await Order.findAll({
@@ -26,7 +25,6 @@ class OrderController {
     }
   }
 
-  // Get an order by ID
   static async getOrderById(req, res, next) {
     try {
       const { id } = req.params;
@@ -57,7 +55,6 @@ class OrderController {
     }
   }
 
-  // Create a new order
   static async createOrder(req, res, next) {
     try {
       const { user_id, order_date, status, payment_status, shipping_fee, total_price } = req.body;
@@ -81,7 +78,6 @@ class OrderController {
     }
   }
 
-  // Update an order
   static async updateOrder(req, res, next) {
     try {
       const { id } = req.params;
@@ -105,7 +101,6 @@ class OrderController {
     }
   }
 
-  // Delete an order
   static async deleteOrder(req, res, next) {
     try {
       const { id } = req.params;

@@ -68,7 +68,7 @@ class ProductVariantController {
     try {
       const { product_id, size_id, color_id, price, stock } = req.body;
 
-      if (!product_id || !size_id || !color_id || !price || stock == null) {
+      if (!product_id || !size_id || !color_id || !price || stock == 1) {
         return res.status(400).json({
           message: "Product ID, size, color, price, and stock are required",
         });

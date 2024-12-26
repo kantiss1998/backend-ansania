@@ -3,10 +3,10 @@ const { Wishlist, User, Product } = require("../models");
 class WishlistController {
   static async getUserWishlist(req, res, next) {
     try {
-      const { userId } = req.params;
+      const { user_id } = req.params;
 
       const wishlist = await Wishlist.findAll({
-        where: { user_id: userId },
+        where: { user_id: user_id },
         include: [
           {
             model: Product,
@@ -31,7 +31,6 @@ class WishlistController {
     try {
       const { user_id, product_id } = req.body;
 
-      // Check if the product is already in the user's wishlist
       const existingWishlist = await Wishlist.findOne({
         where: { user_id, product_id },
       });
@@ -53,10 +52,10 @@ class WishlistController {
 
   static async removeFromWishlist(req, res, next) {
     try {
-      const { userId, productId } = req.params;
+      const { user_id, productId } = req.params;
 
       const wishlist = await Wishlist.findOne({
-        where: { user_id: userId, product_id: productId },
+        where: { user_id: user_id, product_id: productId },
       });
 
       if (!wishlist) {
@@ -73,10 +72,10 @@ class WishlistController {
 
   static async clearWishlist(req, res, next) {
     try {
-      const { userId } = req.params;
+      const { user_id } = req.params;
 
       await Wishlist.destroy({
-        where: { user_id: userId },
+        where: { user_id: user_id },
       });
 
       res.status(200).json({ message: "Wishlist cleared successfully" });

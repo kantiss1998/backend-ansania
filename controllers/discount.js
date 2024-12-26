@@ -1,7 +1,6 @@
 const { Discount } = require("../models");
 
 class DiscountController {
-  // Get all discounts
   static async getDiscounts(req, res, next) {
     try {
       const discounts = await Discount.findAll({
@@ -13,7 +12,6 @@ class DiscountController {
     }
   }
 
-  // Get a single discount
   static async getDiscount(req, res, next) {
     try {
       const { id } = req.params;
@@ -31,12 +29,10 @@ class DiscountController {
     }
   }
 
-  // Create a new discount
   static async createDiscount(req, res, next) {
     try {
       const { name, code, promotion_period, description, discount_amount, is_active } = req.body;
 
-      // Check if the code is unique
       const existingCode = await Discount.findOne({ where: { code } });
       if (existingCode) {
         return res.status(409).json({ message: "Discount code already exists" });
@@ -60,7 +56,6 @@ class DiscountController {
     }
   }
 
-  // Update an existing discount
   static async updateDiscount(req, res, next) {
     try {
       const { id } = req.params;
@@ -100,7 +95,6 @@ class DiscountController {
     }
   }
 
-  // Upload image for discount
   static async uploadImageDiscount(req, res, next) {
     try {
       const { id } = req.params;
@@ -124,7 +118,6 @@ class DiscountController {
     }
   }
 
-  // Delete a discount
   static async deleteDiscount(req, res, next) {
     try {
       const { id } = req.params;

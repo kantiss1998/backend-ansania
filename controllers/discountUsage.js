@@ -1,7 +1,6 @@
 const { DiscountUsage, User, Order, Discount } = require("../models");
 
 class DiscountUsageController {
-  // Get all discount usages
   static async getDiscountUsages(req, res, next) {
     try {
       const discountUsages = await DiscountUsage.findAll({
@@ -18,7 +17,6 @@ class DiscountUsageController {
     }
   }
 
-  // Get a single discount usage
   static async getDiscountUsage(req, res, next) {
     try {
       const { id } = req.params;
@@ -42,7 +40,6 @@ class DiscountUsageController {
     }
   }
 
-  // Create a new discount usage
   static async createDiscountUsage(req, res, next) {
     try {
       const { user_id, order_id, discount_id, usage_date, status } = req.body;
@@ -64,7 +61,6 @@ class DiscountUsageController {
     }
   }
 
-  // Update an existing discount usage
   static async updateDiscountUsage(req, res, next) {
     try {
       const { id } = req.params;
@@ -93,7 +89,6 @@ class DiscountUsageController {
     }
   }
 
-  // Delete a discount usage
   static async deleteDiscountUsage(req, res, next) {
     try {
       const { id } = req.params;

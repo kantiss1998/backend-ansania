@@ -21,7 +21,6 @@ class ShippingController {
     }
   }
 
-  // Get shipping record by ID
   static async getShippingById(req, res, next) {
     try {
       const { id } = req.params;

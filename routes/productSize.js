@@ -3,11 +3,10 @@ const ProductSizeController = require("../controllers/productSize");
 
 const productsize = express.Router();
 
-productsize.get("/", ProductSizeController.getAllProductSizes);
+productsize.get("/", ProductSizeController.getProductSizes);
 productsize.post("/", ProductSizeController.createProductSize);
-productsize.put("/", ProductSizeController.updateProductSize);
-productsize.delete("/", ProductSizeController.deleteProductSize);
-productsize.get("/:id", ProductSizeController.getProductSizeById);
-productsize.get("/:productid", ProductSizeController.getProductSizeByProductId);
+productsize.put("/:id", ProductSizeController.updateProductSize);
+productsize.delete("/:id", ProductSizeController.deleteProductSize);
+productsize.get("/:id", ProductSizeController.getProductSize);
 
 module.exports = productsize;
