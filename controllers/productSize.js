@@ -1,49 +1,44 @@
-const { ProductSize } = require("../models");
+const { ProductSize, Product } = require("../models");
 
 class ProductSizeController {
-  static async getAllProductSizes(req, res, next) {
+  static async getProductSizes(req, res, next) {
     try {
-      const productSizes = await ProductSize.findAll({
+      const sizes = await ProductSize.findAll({
         attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            model: Product,
+            as: "product",
+            attributes: ["id", "name", "description"],
+          },
+        ],
       });
-      res.status(200).json(productSizes);
+
+      res.status(200).json(sizes);
     } catch (error) {
       next(error);
     }
   }
 
-  static async getProductSizeById(req, res, next) {
+  static async getProductSize(req, res, next) {
     try {
       const { id } = req.params;
-      const productSize = await ProductSize.findByPk(id, {
+      const size = await ProductSize.findByPk(id, {
         attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            model: Product,
+            as: "product",
+            attributes: ["id", "name", "description"],
+          },
+        ],
       });
 
-      if (!productSize) {
+      if (!size) {
         return res.status(404).json({ message: "Product size not found" });
       }
 
-      res.status(200).json(productSize);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async getProductSizeByProductId(req, res, next) {
-    try {
-      const { productid } = req.params;
-      const productSize = await ProductSize.findOne({
-        where: { product_id: productid },
-        attributes: { exclude: ["createdAt", "updatedAt"] },
-      });
-
-      if (!productSize) {
-        return res
-          .status(404)
-          .json({ message: "Product size not found for this product" });
-      }
-
-      res.status(200).json(productSize);
+      res.status(200).json(size);
     } catch (error) {
       next(error);
     }
@@ -51,18 +46,14 @@ class ProductSizeController {
 
   static async createProductSize(req, res, next) {
     try {
-      const { name, product_id } = req.body;
+      const { productId, name } = req.body;
 
-      if (!name) {
-        return res.status(400).json({ message: "Name is required" });
+      if (!productId || !name) {
+        return res.status(400).json({ message: "Product ID and name are required" });
       }
 
-      const productSize = await ProductSize.create({
-        name,
-        product_id: product_id,
-      });
-
-      res.status(201).json(productSize);
+      const size = await ProductSize.create({ product_id : productId, name });
+      res.status(201).json(size);
     } catch (error) {
       next(error);
     }
@@ -71,26 +62,15 @@ class ProductSizeController {
   static async updateProductSize(req, res, next) {
     try {
       const { id } = req.params;
-      const { name, product_id } = req.body;
+      const { name } = req.body;
 
-      if (!name && !product_id) {
-        return res
-          .status(400)
-          .json({ message: "At least one field must be updated" });
-      }
-
-      const productSize = await ProductSize.findByPk(id);
-
-      if (!productSize) {
+      const size = await ProductSize.findByPk(id);
+      if (!size) {
         return res.status(404).json({ message: "Product size not found" });
       }
 
-      await productSize.update({
-        name: name || productSize.name,
-        product_id: product_id || productSize.product_id,
-      });
-
-      res.status(200).json(productSize);
+      await size.update({ name: name || size.name });
+      res.status(200).json(size);
     } catch (error) {
       next(error);
     }
@@ -99,15 +79,13 @@ class ProductSizeController {
   static async deleteProductSize(req, res, next) {
     try {
       const { id } = req.params;
-      const productSize = await ProductSize.findByPk(id);
-
-      if (!productSize) {
+      const size = await ProductSize.findByPk(id);
+      if (!size) {
         return res.status(404).json({ message: "Product size not found" });
       }
 
-      await productSize.destroy();
-
-      res.status(200).json(productSize);
+      await size.destroy();
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

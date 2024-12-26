@@ -7,10 +7,9 @@ const category = express.Router();
 
 category.get("/", CategoryController.getCategories);
 category.post("/", CategoryController.createCategory)
-category.put("/", CategoryController.updateCategory);
-category.patch("/", CategoryController.uploadImageCategory);
-category.delete("/", CategoryController.deleteCategory);
 category.get("/:id", CategoryController.getCategory);
+category.put("/:id", CategoryController.updateCategory);
+category.delete("/:id", CategoryController.deleteCategory);
 category.patch(
     "/:id",
     checkFolder("Category"),

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       postal_code: DataTypes.STRING,
       shipping_date: DataTypes.DATE,
       status: DataTypes.STRING,
+      courir: DataTypes.STRING,
       tracking_number: DataTypes.STRING,
     },
     {

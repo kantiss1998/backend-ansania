@@ -1,25 +1,55 @@
-const { CollectionProduct } = require("../models");
+const { CollectionProduct, Product, CollectionProductItem } = require("../models");
 
 class CollectionProductController {
-  static async getAllCollection(req, res, next) {
+  static async getCollectionProducts(req, res, next) {
     try {
-      const products = await CollectionProduct.findAll();
-      res.status(200).json(products);
+      const collections = await CollectionProduct.findAll({
+        attributes: { exclude: ["created_at", "updated_at"] },
+        include: [
+          {
+            model: CollectionProductItem,
+            as: "items",
+            include: [
+              {
+                model: Product,
+                as: "product",
+                attributes: { exclude: ["created_at", "updated_at"] },
+              },
+            ],
+          },
+        ],
+      });
+      res.status(200).json(collections);
     } catch (error) {
       next(error);
     }
   }
 
-  static async getCollectionProductById(req, res, next) {
+  static async getCollectionProduct(req, res, next) {
     try {
       const { id } = req.params;
-      const collectionProduct = await CollectionProduct.findByPk(id);
-      if (!collectionProduct) {
-        return res
-          .status(404)
-          .json({ message: "Collection product not found" });
+      const collection = await CollectionProduct.findByPk(id, {
+        attributes: { exclude: ["created_at", "updated_at"] },
+        include: [
+          {
+            model: CollectionProductItem,
+            as: "items",
+            include: [
+              {
+                model: Product,
+                as: "product",
+                attributes: { exclude: ["created_at", "updated_at"] },
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!collection) {
+        return res.status(404).json({ message: "Collection not found" });
       }
-      res.status(200).json(collectionProduct);
+
+      res.status(200).json(collection);
     } catch (error) {
       next(error);
     }
@@ -27,8 +57,18 @@ class CollectionProductController {
 
   static async createCollectionProduct(req, res, next) {
     try {
-      const collectionProduct = await CollectionProduct.create(req.body);
-      res.status(201).json(collectionProduct);
+      const { name, description } = req.body;
+
+      const collection = await CollectionProduct.create({
+        name,
+        description,
+        image_url: req.file ? `https://ansania.store/Collection/${req.file.filename}` : null,
+      });
+
+      res.status(201).json({
+        message: "Collection created successfully",
+        collection,
+      });
     } catch (error) {
       next(error);
     }
@@ -37,38 +77,24 @@ class CollectionProductController {
   static async updateCollectionProduct(req, res, next) {
     try {
       const { id } = req.params;
-      const collectionProduct = await CollectionProduct.findByPk(id);
-      if (!collectionProduct) {
-        return res
-          .status(404)
-          .json({ message: "Collection product not found" });
+      const { name, description } = req.body;
+
+      const collection = await CollectionProduct.findByPk(id);
+      if (!collection) {
+        return res.status(404).json({ message: "Collection not found" });
       }
-      await collectionProduct.update({
-        name: req.body.name || collectionProduct.name,
-        description: req.body.description || collectionProduct.description,
+
+      await collection.update({
+        name: name || collection.name,
+        description: description || collection.description,
+        image_url: req.file ? `https://ansania.store/Collection/${req.file.filename}` : collection.image_url,
       });
-    } catch {
-      next(error);
-    }
-  }
 
-  static async uploadCollectionProduct(req, res, next) {
-    try {
-      const { id } = req.params;
-      const collectionProduct = await CollectionProduct.findByPk(id);
-      if (!collectionProduct) {
-        return res
-         .status(404)
-         .json({ message: "Collection product not found" });
-      }
-
-      if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
-      }
-      const filePath = `https://ansania.store/CollectionProduct/${req.file.filename}`;
-      await collectionProduct.update({ image_url: filePath });
-      res.status(200).json(collectionProduct);
-    } catch (error) {
+      res.status(200).json({
+        message: "Collection updated successfully",
+        collection,
+      });
+    } catch (error) {         
       next(error);
     }
   }
@@ -76,13 +102,13 @@ class CollectionProductController {
   static async deleteCollectionProduct(req, res, next) {
     try {
       const { id } = req.params;
-      const collectionProduct = await CollectionProduct.findByPk(id);
-      if (!collectionProduct) {
-        return res
-          .status(404)
-          .json({ message: "Collection product not found" });
+
+      const collection = await CollectionProduct.findByPk(id);
+      if (!collection) {
+        return res.status(404).json({ message: "Collection not found" });
       }
-      await collectionProduct.destroy();
+
+      await collection.destroy();
       res.status(204).send();
     } catch (error) {
       next(error);
@@ -90,4 +116,4 @@ class CollectionProductController {
   }
 }
 
-module.exports = CollectionProductController
+module.exports = CollectionProductController;

@@ -15,12 +15,42 @@ module.exports = {
           model: "Categories",
           key: "id",
         },
-        onDelete: "SET NULL"
+        onDelete: "SET NULL",
+      },
+      type_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Types",
+          key: "id",
+        },
+        onDelete: "SET NULL",
+      },
+      material_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Materials",
+          key: "id",
+        },
+        onDelete: "SET NULL",
+      },
+      finishing_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Finishings",
+          key: "id",
+        },
+        onDelete: "SET NULL",
       },
       description: {
         type: Sequelize.STRING,
       },
-      image_url: {
+      name: {
+        type: Sequelize.STRING,
+      },
+      price: {
+        type: Sequelize.INTEGER,
+      },
+      sku: {
         type: Sequelize.STRING,
       },
       createdAt: {

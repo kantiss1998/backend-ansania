@@ -35,6 +35,9 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      courir : {
+        type: Sequelize.STRING,
+      },
       tracking_number: {
         type: Sequelize.STRING
       },
