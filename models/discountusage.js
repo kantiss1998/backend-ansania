@@ -9,9 +9,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      DiscountUsage.belongsTo(models.User, { foreignKey: "user_id" });
-      DiscountUsage.belongsTo(models.Order, { foreignKey: "order_id" });
-      DiscountUsage.belongsTo(models.Discount, { foreignKey: "discount_id" });
+      DiscountUsage.belongsTo(models.Discount, {
+        foreignKey: "discount_id",
+        onDelete: "CASCADE",
+        as: "discount",
+      });
+      DiscountUsage.belongsTo(models.User, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "user",
+      });
+      DiscountUsage.belongsTo(models.Order, {
+        foreignKey: "order_id",
+        onDelete: "CASCADE",
+        as: "order",
+      });
     }
   }
   DiscountUsage.init(

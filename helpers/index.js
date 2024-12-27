@@ -14,7 +14,6 @@ class Helpers {
   };
 
   static generateToken = (payload) => {
-    console.log(process.env)
     const token = jwt.sign(payload, "anotherbem");
     return token;
   };

@@ -9,10 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Wishlist.belongsTo(models.User, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "user",
+      });
       Wishlist.belongsTo(models.ProductVariant, {
         foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "variant",
       });
-      Wishlist.belongsTo(models.User, { foreignKey: "user_id" });
     }
   }
   Wishlist.init(

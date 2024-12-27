@@ -9,11 +9,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.UserProfil, { foreignKey: "user_id" });
-      User.hasMany(models.Wishlist, { foreignKey: "user_id" });
-      User.hasMany(models.Order, { foreignKey: "user_id" });
-      User.hasMany(models.Review, { foreignKey: "user_id" });
-      User.hasMany(models.DiscountUsage, { foreignKey: "user_id" });
+      User.hasOne(models.UserProfil, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "profile",
+      });
+      User.hasMany(models.Wishlist, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "wishlists",
+      });
+      User.hasMany(models.Review, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "reviews",
+      });
+      User.hasMany(models.Cart, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "cartItems",
+      });
+      User.hasMany(models.Order, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "orders",
+      });
+      User.hasMany(models.DiscountUsage, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "discountUsages",
+      });
     }
   }
   User.init(
@@ -28,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "customer",
       },
-      last_login: DataTypes.DATE
+      last_login: DataTypes.DATE,
     },
     {
       sequelize,

@@ -9,10 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Review.belongsTo(models.User, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "user",
+      });
       Review.belongsTo(models.ProductVariant, {
         foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "variant",
       });
-      Review.belongsTo(models.User, { foreignKey: "user_id" });
     }
   }
   Review.init(
@@ -26,10 +32,10 @@ module.exports = (sequelize, DataTypes) => {
           max: 5,
           isValidRating(value) {
             if (value < 1 || value > 5) {
-              throw new Error('Rating must be between 1 and 5');
+              throw new Error("Rating must be between 1 and 5");
             }
-          }
-        }
+          },
+        },
       },
       comment: DataTypes.STRING,
     },

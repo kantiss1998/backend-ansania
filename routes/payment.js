@@ -1,11 +1,11 @@
-const express = require("express");
-const PaymentController = require("../controllers/payment");
+// const express = require("express");
+// const PaymentController = require("../controllers/payment");
 
-const payment = express.Router();
+// const payment = express.Router();
 
-payment.post("/", PaymentController.createPayment)
-payment.put("/", PaymentController.handleNotification)
-payment.get("/", PaymentController.getPayments)
-payment.get("/:id", PaymentController.getPaymentById)
+// payment.post("/", PaymentController.createPayment)
+// payment.put("/", PaymentController.handleNotification)
+// payment.get("/", PaymentController.getPayments)
+// payment.get("/:id", PaymentController.getPaymentById)
 
-module.exports = payment;
+// module.exports = payment;

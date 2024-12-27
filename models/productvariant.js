@@ -9,20 +9,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ProductVariant.belongsTo(models.Product, { foreignKey: "product_id" });
-      ProductVariant.belongsTo(models.ProductSize, { foreignKey: "size_id" });
-      ProductVariant.belongsTo(models.ProductColor, { foreignKey: "color_id" });
-      ProductVariant.hasMany(models.OrderItem, {
-        foreignKey: "product_variant_id",
+      ProductVariant.belongsTo(models.Product, {
+        foreignKey: "product_id",
+        onDelete: "CASCADE",
+        as: "product",
       });
+      ProductVariant.belongsTo(models.ProductSize, {
+        foreignKey: "size_id",
+        onDelete: "SET NULL",
+        as: "size",
+      });
+      ProductVariant.belongsTo(models.ProductColor, {
+        foreignKey: "color_id",
+        onDelete: "SET NULL",
+        as: "color",
+      });
+
       ProductVariant.hasMany(models.Wishlist, {
         foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "wishlists",
       });
       ProductVariant.hasMany(models.Review, {
         foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "reviews",
       });
       ProductVariant.hasMany(models.Cart, {
         foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "cartItems",
+      });
+      ProductVariant.hasMany(models.OrderItem, {
+        foreignKey: "product_variant_id",
+        onDelete: "CASCADE",
+        as: "orderItems",
       });
     }
   }

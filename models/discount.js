@@ -9,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Discount.hasMany(models.Product, { foreignKey: "discount_id" });
+      Discount.hasMany(models.DiscountUsage, {
+        foreignKey: "discount_id",
+        onDelete: "CASCADE",
+        as: "usages",
+      });
     }
   }
   Discount.init(

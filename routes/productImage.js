@@ -1,6 +1,7 @@
 const express = require("express");
 const ProductImageController = require("../controllers/productImage");
 const checkFolder = require("../utils/checkFolder");
+const upload = require("../utils/upload");
 
 const productImage = express.Router();
 

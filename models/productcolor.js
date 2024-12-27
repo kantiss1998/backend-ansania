@@ -9,8 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ProductColor.belongsTo(models.Product, { foreignKey: "product_id" });
-      ProductColor.hasMany(models.ProductVariant, { foreignKey: "color_id" });
+      ProductColor.belongsTo(models.Product, {
+        foreignKey: "product_id",
+        onDelete: "CASCADE",
+        as: "product",
+      });
+      ProductColor.hasMany(models.ProductVariant, {
+        foreignKey: "color_id",
+        onDelete: "SET NULL",
+        as: "variants",
+      });
     }
   }
   ProductColor.init(

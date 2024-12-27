@@ -9,7 +9,7 @@ module.exports = {
   material: require("./material"),
   order: require("./order"),
   orderItem: require("./orderItem"),
-  payment: require("./payment"),
+  // payment: require("./payment"),
   product: require("./product"),
   productColor: require("./productColor"),
   productImage: require("./productImage"),
@@ -19,6 +19,6 @@ module.exports = {
   shipping: require("./shipping"),
   type: require("./type"),
   user: require("./user"),
-  userProfile: require("./userProfile"),
+  userProfil: require("./userProfile"),
   wishlist: require("./wishlist"),
 };

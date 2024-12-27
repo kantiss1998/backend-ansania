@@ -9,11 +9,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Order.belongsTo(models.User, { foreignKey: "user_id" });
-      Order.hasMany(models.OrderItem, { foreignKey: "order_id" });
-      Order.hasMany(models.Shipping, { foreignKey: "order_id" });
-      Order.hasMany(models.Payment, { foreignKey: "order_id" });
-      Order.hasMany(models.DiscountUsage, { foreignKey: "order_id" });
+      Order.belongsTo(models.User, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        as: "user",
+      });
+      Order.hasMany(models.OrderItem, {
+        foreignKey: "order_id",
+        onDelete: "CASCADE",
+        as: "items",
+      });
+      Order.hasOne(models.Payment, {
+        foreignKey: "order_id",
+        onDelete: "CASCADE",
+        as: "payment",
+      });
+      Order.hasOne(models.Shipping, {
+        foreignKey: "order_id",
+        onDelete: "CASCADE",
+        as: "shipping",
+      });
+      Order.hasMany(models.DiscountUsage, {
+        foreignKey: "order_id",
+        onDelete: "CASCADE",
+        as: "discountUsages",
+      });
     }
   }
   Order.init(

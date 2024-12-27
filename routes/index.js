@@ -12,7 +12,7 @@ const {
   material,
   order,
   orderItem,
-  payment,
+  // payment,
   product,
   productColor,
   productImage,
@@ -44,7 +44,7 @@ router.use("/finishing", finishing);
 router.use("/material", material);
 router.use("/order", order);
 router.use("/orderitem", orderItem);
-router.use("/payment", payment);
+// router.use("/payment", payment);
 router.use("/product", product);
 router.use("/productcolor", productColor);
 router.use("/productimage", productImage);

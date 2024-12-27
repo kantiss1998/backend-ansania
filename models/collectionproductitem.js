@@ -9,8 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      CollectionProductItem.belongsTo(models.Product, { foreignKey: "product_id" });
-      CollectionProductItem.belongsTo(models.CollectionProduct, { foreignKey: "collection_product_id" });
+      CollectionProductItem.belongsTo(models.CollectionProduct, {
+        foreignKey: "collection_product_id",
+        onDelete: "CASCADE",
+        as: "collection",
+      });
+      CollectionProductItem.belongsTo(models.Product, {
+        foreignKey: "product_id",
+        onDelete: "CASCADE",
+        as: "product",
+      });
     }
   }
   CollectionProductItem.init(

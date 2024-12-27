@@ -4,9 +4,9 @@ const WishlistController = require("../controllers/wishlist");
 const wishlist = express.Router();
 
 wishlist.get("/:user_id", WishlistController.getUserWishlist);
-wishlist.destroy("/:user_id", WishlistController.clearWishlist);
+wishlist.delete("/:user_id", WishlistController.clearWishlist);
 wishlist.post("/:user_id/:product_id", WishlistController.addToWishlist);
-wishlist.destroy(
+wishlist.delete(
   "/:user_id/:product_id",
   WishlistController.removeFromWishlist
 );
